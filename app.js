@@ -1,6 +1,20 @@
 // Configuration
-const GEMINI_API_KEY = 'AQ.Ab8RN6Jx92gekmmBPzc1EmVRrHZhhMPKb-h0RqB9e16gVmjWgQ';
+// We pull the key from localStorage so you only have to type it once, and it never goes to GitHub!
+let GEMINI_API_KEY = localStorage.getItem('MY_GEMINI_KEY') || '';
+
+if (!GEMINI_API_KEY) {
+    GEMINI_API_KEY = prompt("Please enter your Gemini API Key to start chatting:");
+    if (GEMINI_API_KEY) {
+        localStorage.setItem('MY_GEMINI_KEY', GEMINI_API_KEY);
+    }
+}
+
 const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
+
+
+
+
+
 // State management
 let conversations = JSON.parse(localStorage.getItem('conversations')) || [];
 let currentConversationId = null;
