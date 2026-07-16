@@ -1,0 +1,229 @@
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+    background: #555;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Message animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.message-bubble {
+    animation: slideIn 0.3s ease-out;
+}
+
+/* Typing indicator */
+@keyframes typing {
+    0%, 60%, 100% {
+        opacity: 0.3;
+    }
+    30% {
+        opacity: 1;
+    }
+}
+
+.typing-dot {
+    animation: typing 1.4s infinite;
+}
+
+.typing-dot:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-dot:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Code block styling */
+.message-content pre {
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.message-content code {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+}
+
+.message-content p code {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.dark .message-content p code {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Copy button for code blocks */
+.code-copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    padding: 0.25rem 0.5rem;
+    color: white;
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: background 0.2s;
+}
+
+.code-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Message content formatting */
+.message-content {
+    line-height: 1.6;
+}
+
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content h4,
+.message-content h5,
+.message-content h6 {
+    font-weight: 600;
+    margin: 1rem 0 0.5rem 0;
+}
+
+.message-content h1 {
+    font-size: 1.5rem;
+}
+
+.message-content h2 {
+    font-size: 1.3rem;
+}
+
+.message-content h3 {
+    font-size: 1.1rem;
+}
+
+.message-content ul,
+.message-content ol {
+    margin: 0.5rem 0;
+    padding-left: 1.5rem;
+}
+
+.message-content li {
+    margin: 0.25rem 0;
+}
+
+.message-content blockquote {
+    border-left: 4px solid hwb(192 5% 13%);
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #666;
+}
+
+.dark .message-content blockquote {
+    color: #aaa;
+}
+
+/* Links updated from green to classic blue */
+.message-content a {
+    color: #2563eb;
+    text-decoration: underline;
+}
+
+.message-content table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.message-content th,
+.message-content td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.dark .message-content th,
+.dark .message-content td {
+    border-color: #444;
+}
+
+.message-content th {
+    background: rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+}
+
+.dark .message-content th {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Textarea auto-resize */
+textarea {
+    field-sizing: content;
+    min-height: 52px;
+    max-height: 200px;
+}
+
+/* Sidebar mobile overlay */
+@media (max-width: 768px) {
+    #sidebar.active {
+        transform: translateX(0);
+    }
+    
+    #sidebar.active ~ main {
+        filter: blur(2px);
+        pointer-events: none;
+    }
+}
+
+/* Optimized Performance Transitions */
+body, aside, main, textarea, button, .chat-history-item {
+    transition: background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+}
+
+/* Chat history item hover */
+.chat-history-item:hover {
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.dark .chat-history-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Active chat history item - updated from green to blue */
+.chat-history-item.active {
+    background: rgba(37, 99, 235, 0.1);
+    border-left: 3px solid #2563eb;
+}

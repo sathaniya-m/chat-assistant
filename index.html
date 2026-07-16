@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Chat Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    
+    <link rel="stylesheet" href="style.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        dark: {
+                            bg: '#343541',
+                            sidebar: '#202123',
+                            input: '#40414f',
+                            border: '#4d4d4f'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 dark:bg-dark-bg text-gray-900 dark:text-gray-100 transition-colors duration-300">
+    <button id="mobileMenuBtn" class="fixed top-4 left-4 z-50 p-2 rounded-lg bg-white dark:bg-dark-sidebar shadow-lg md:hidden">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+    </button>
+
+    <aside id="sidebar" class="fixed left-0 top-0 z-40 flex h-full w-64 -translate-x-full flex-col border-r border-gray-200 bg-white transition-transform duration-300 dark:border-dark-border dark:bg-dark-sidebar md:translate-x-0">
+        <div class="border-b border-gray-200 p-4 dark:border-dark-border">
+            <button id="newChatBtn" class="flex w-full items-center gap-3 rounded-lg border border-gray-300 px-4 py-3 hover:bg-gray-100 transition-colors dark:border-dark-border dark:hover:bg-dark-input">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                </svg>
+                <span class="font-medium">New Chat</span>
+            </button>
+        </div>
+
+        <div class="flex-1 overflow-y-auto p-4 space-y-2" id="chatHistory">
+            </div>
+
+        <div class="border-t border-gray-200 p-4 dark:border-dark-border">
+            <button id="themeToggle" class="flex w-full items-center gap-3 rounded-lg px-4 py-3 hover:bg-gray-100 transition-colors dark:hover:bg-dark-input">
+                <svg id="sunIcon" class="hidden h-5 w-5 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                <svg id="moonIcon" class="block h-5 w-5 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                </svg>
+                <span class="font-medium">Toggle Theme</span>
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex h-screen flex-col md:ml-64">
+        <header class="flex items-center justify-between border-b border-gray-200 bg-white px-4 py-3 dark:border-dark-border dark:bg-dark-sidebar">
+            <h1 class="text-xl font-semibold">AI Chat Assistant</h1>
+            <button id="clearChatBtn" class="rounded-lg px-4 py-2 text-sm hover:bg-gray-100 transition-colors dark:hover:bg-dark-input">
+                Clear Chat
+            </button>
+        </header>
+
+        <div id="messagesContainer" class="flex-1 overflow-y-auto px-4 py-6 space-y-6">
+            <div class="flex h-full items-center justify-center" id="welcomeMessage">
+                <div class="max-w-2xl text-center">
+                    <div class="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-primary">
+                        <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
+                        </svg>
+                    </div>
+                    <h2 class="mb-2 text-2xl font-bold">How can I help you today?</h2>
+                    <p class="text-gray-600 dark:text-gray-400">Start a conversation with the AI assistant</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="border-t border-gray-200 bg-white p-4 dark:border-dark-border dark:bg-dark-sidebar">
+            <div class="relative mx-auto max-w-3xl">
+                <div class="flex items-end gap-3">
+                    <textarea 
+                        id="messageInput" 
+                        placeholder="Send a message..." 
+                        rows="1"
+                        class="flex-1 resize-none rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 transition-all focus:outline-none focus:ring-2 focus:ring-primary dark:border-dark-border dark:bg-dark-input"
+                    ></textarea>
+                    <button 
+                        id="sendButton" 
+                        class="rounded-xl bg-primary px-6 py-3 font-medium text-white transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+                        disabled
+                    >
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                        </svg>
+                    </button>
+                </div>
+                <p class="mt-2 text-center text-xs text-gray-500 dark:text-gray-400">
+                    Press Enter to send, Shift + Enter for new line
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <div id="rateLimitAlert" class="fixed top-4 right-4 z-50 translate-x-full transition-transform duration-300"></div>
+        <div class="flex items-center gap-3">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+            <div>
+                <p class="font-semibold">Rate Limit Exceeded</p>
+                <p class="text-sm">Please wait before sending more messages</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
