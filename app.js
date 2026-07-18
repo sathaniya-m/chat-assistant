@@ -244,7 +244,7 @@ async function getGeminiResponse(messages) {
         parts: [{ text: msg.content }]
     }));
     
-   const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+   const response = await fetch(GEMINI_API_URL, {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
