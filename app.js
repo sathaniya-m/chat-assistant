@@ -1,20 +1,6 @@
 // Configuration
-// We pull the key from localStorage so you only have to type it once, and it never goes to GitHub!
-let GEMINI_API_KEY = localStorage.getItem('MY_GEMINI_KEY') || '';
-
-if (!GEMINI_API_KEY) {
-    GEMINI_API_KEY = prompt("Please enter your Gemini API Key to start chatting:");
-    if (GEMINI_API_KEY) {
-        localStorage.setItem('MY_GEMINI_KEY', GEMINI_API_KEY);
-    }
-}
-
-const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
-
-
-
-
-
+const GEMINI_API_KEY = 'AQ.Ab8RN6KCBsYAyGup9AzskFf78DT1Kg4ftHJZzj2yWCaorpW18w';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent';
 // State management
 let conversations = JSON.parse(localStorage.getItem('conversations')) || [];
 let currentConversationId = null;
@@ -258,11 +244,10 @@ async function getGeminiResponse(messages) {
         parts: [{ text: msg.content }]
     }));
     
-    const response = await fetch(`${GEMINI_API_URL}`, {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': GEMINI_API_KEY
+   const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
     },
         body: JSON.stringify({
             contents: formattedMessages,
