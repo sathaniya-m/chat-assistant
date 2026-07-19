@@ -255,7 +255,8 @@ async function getGeminiResponse(messages) {
         'Content-Type': 'application/json',
         'x-goog-api-key': GEMINI_API_KEY
     },
-        body: JSON.stringify({
+    body: JSON.stringify({
+            model: 'gemini-3.5-flash',
             contents: formattedMessages,
             generationConfig: {
                 temperature: 0.7,
