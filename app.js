@@ -1,5 +1,5 @@
 // Configuration
-const GEMINI_API_KEY = 'AQ.Ab8RN6LOBEiu-en-QJ6mIK8j1ZKCN1EAuofjAiTIUED6Uio-Xg';
+const GEMINI_API_KEY = 'AIzaSyYourActualKeyGoesHere';
 const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
 // State management
 let conversations = JSON.parse(localStorage.getItem('conversations')) || [];
