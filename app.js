@@ -1,5 +1,6 @@
 // Configuration
-// Prompt for the key locally so it is never committed to GitHub
+// Configuration
+// This prompts your browser for the key locally so it is never saved to GitHub
 const GEMINI_API_KEY = localStorage.getItem('GEMINI_API_KEY') || prompt("Please enter your Gemini API Key:");
 if (GEMINI_API_KEY) {
     localStorage.setItem('GEMINI_API_KEY', GEMINI_API_KEY);
