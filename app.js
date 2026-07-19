@@ -1,6 +1,6 @@
 // Configuration
-const GEMINI_API_KEY = 'AIzaSyYourActualKeyGoesHere';
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_KEY = 'AQ.Ab8RN6LGAtHRpsKz0Hwx-5zei3ZnQnFG-DKg7xmOUTeDNdUiCg'; 
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
 // State management
 let conversations = JSON.parse(localStorage.getItem('conversations')) || [];
 let currentConversationId = null;
@@ -247,7 +247,8 @@ async function getGeminiResponse(messages) {
    const response = await fetch(GEMINI_API_URL, {
     method: 'POST',
     headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'x-goog-api-key': GEMINI_API_KEY
     },
         body: JSON.stringify({
             contents: formattedMessages,
